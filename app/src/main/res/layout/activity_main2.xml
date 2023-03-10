@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/lightOrange"
+    android:padding="30sp">
+
+    <EditText
+        android:id="@+id/Create_name"
+        android:layout_width="220dp"
+        android:layout_height="51dp"
+        android:autofillHints="name"
+        android:ems="10"
+        android:hint="@string/name"
+        android:inputType="textPersonName"
+        android:padding="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/Create_lastName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.308"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.044" />
+
+    <EditText
+        android:id="@+id/Create_lastName"
+        android:layout_width="220dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="16dp"
+        android:autofillHints="lastName"
+        android:ems="10"
+        android:hint="@string/lastName"
+        android:inputType="textPersonName"
+        android:padding="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/Create_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.335"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/Create_email"
+        android:layout_width="220dp"
+        android:layout_height="51dp"
+        android:autofillHints="email"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:padding="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/Create_Number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.246"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/Create_Number"
+        android:layout_width="220dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="16dp"
+        android:autofillHints="number"
+        android:ems="10"
+        android:hint="@string/number"
+        android:inputType="phone"
+        android:padding="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/Create_Birthday"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.324"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/Create_Birthday"
+        android:layout_width="220dp"
+        android:layout_height="51dp"
+        android:autofillHints="birthday"
+        android:ems="10"
+        android:hint="@string/birthday"
+        android:inputType="date"
+        android:padding="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/create_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.256"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="-30dp" />
+
+    <Button
+        android:id="@+id/create_button"
+        android:layout_width="300dp"
+        android:layout_height="42dp"
+        android:background="@color/orange"
+        android:text="@string/description_add"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.414"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="362dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

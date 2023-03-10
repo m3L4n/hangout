@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">ft_hangout</string>
+    <string name="color_blue"> blue</string>
+    <string name="color_green"> green</string>
+    <string name="color_red"> red</string>
+    <string name="description_add"> add</string>
+    <string name="description_update"> update</string>
+    <string name="description_delete"> delete </string>
+    <string name="description_delete_all"> delete all </string>
+    <string name="noData"> no contacts here </string>
+    <string name="sms"> sms </string>
+    <string name="call">call </string>
+    <string name="choose_image"> choose image profile </string>
+    <string name="image"> image of Profil </string>
+    <string name="id"> id </string>
+
+
+
+    <string name="delete_title"> Delete </string>
+    <string name="delete_message"> are you sure you want to delete </string>
+    <string name="positive"> yes</string>
+    <string name="negative"> no</string>
+
+    <string name="name"> name</string>
+    <string name="lastName"> Last Name</string>
+    <string name="email"> email</string>
+    <string name="number"> number</string>
+    <string name="birthday"> birthday</string>
+
+</resources>
