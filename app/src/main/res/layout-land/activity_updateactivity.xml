@@ -16,86 +16,81 @@
 
     <EditText
         android:id="@+id/update_name"
-        android:layout_width="220dp"
-        android:layout_height="51dp"
+        android:layout_width="194dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="16dp"
         android:autofillHints="name"
         android:ems="10"
         android:hint="@string/name"
-        android:textSize="15sp"
-        android:padding="10sp"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.335"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.257" />
+        android:padding="10sp"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/imageProfile"
+        app:layout_constraintTop_toBottomOf="@+id/choose_image" />
 
     <EditText
         android:id="@+id/update_lastName"
         android:layout_width="220dp"
-        android:layout_height="51dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/lastName"
-        android:textSize="15sp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="10dp"
         android:autofillHints="lastName"
+        android:ems="10"
+        android:hint="@string/lastName"
+        android:inputType="textPersonName"
         android:padding="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.329"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/update_name"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintStart_toEndOf="@+id/update_name"
+        app:layout_constraintTop_toBottomOf="@+id/Call_button" />
 
     <EditText
         android:id="@+id/update_email"
-        android:layout_width="220dp"
-        android:layout_height="51dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:hint="@string/email"
-        android:textSize="15sp"
-        android:padding="10sp"
+        android:layout_width="194dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="28dp"
         android:autofillHints="email"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.329"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/update_lastName"
-        app:layout_constraintVertical_bias="0.052" />
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:padding="10sp"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/update_Birthday"
+        app:layout_constraintTop_toBottomOf="@+id/update_name" />
 
     <EditText
         android:id="@+id/update_Number"
         android:layout_width="220dp"
-        android:layout_height="51dp"
-        android:ems="10"
-        android:inputType="phone"
-        android:hint="@string/number"
-        android:textSize="15sp"
+        android:layout_height="48dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="68dp"
         android:autofillHints="number"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:ems="10"
+        android:hint="@string/number"
+        android:inputType="phone"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.335"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/update_email"
-        app:layout_constraintVertical_bias="0.049" />
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toEndOf="@+id/update_email"
+        app:layout_constraintTop_toBottomOf="@+id/update_lastName" />
 
     <EditText
         android:id="@+id/update_Birthday"
-        android:layout_width="220dp"
+        android:layout_width="100dp"
         android:layout_height="51dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
         android:autofillHints="birthday"
         android:ems="10"
         android:hint="@string/birthday"
         android:inputType="date"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.329"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/update_Number"
-        app:layout_constraintVertical_bias="0.082" />
+        app:layout_constraintTop_toBottomOf="@+id/imageProfile"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -113,60 +108,55 @@
 
     <Button
         android:id="@+id/update_button"
-        android:layout_width="295dp"
-        android:layout_height="53dp"
+        android:layout_width="194dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginBottom="4dp"
+        android:background="@color/orange"
         android:text="@string/description_update"
         android:textAllCaps="false"
-        android:background="@color/orange"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.258"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/update_Birthday"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <Button
         android:id="@+id/delete_button"
-        android:layout_width="295dp"
-        android:layout_height="53dp"
+        android:layout_width="194dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginBottom="4dp"
+        android:background="@color/orange"
         android:text="@string/description_delete"
         android:textAllCaps="false"
         android:textSize="20sp"
-        android:background="@color/orange"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.258"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/update_button"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/Call_button"
         android:layout_width="65dp"
         android:layout_height="48dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="4dp"
         android:background="@color/orange"
         android:contentDescription="@string/call"
         android:text="@string/call"
-        app:layout_constraintStart_toEndOf="@+id/imageProfile"
-        app:layout_constraintTop_toBottomOf="@+id/choose_image"
+        app:layout_constraintEnd_toStartOf="@+id/go_to_SMS"
+        app:layout_constraintHorizontal_bias="0.844"
+        app:layout_constraintStart_toEndOf="@+id/choose_image"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/call" />
 
     <ImageButton
         android:id="@+id/go_to_SMS"
         android:layout_width="65dp"
         android:layout_height="48dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="48dp"
         android:background="@color/orange"
         android:contentDescription="@string/sms"
         android:text="@string/sms"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/Call_button"
-        app:layout_constraintTop_toBottomOf="@+id/choose_image"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_textsms_24" />
 
     <ImageView
@@ -176,27 +166,24 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="4dp"
         android:contentDescription="@string/image"
-        app:layout_constraintBottom_toTopOf="@+id/update_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.139"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/choose_image"
-        android:layout_width="210dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="104dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="4dp"
         android:background="@color/orange"
         android:padding="10sp"
         android:text="@string/choose_image"
         android:textColor="@color/black"
         android:textSize="12sp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/update_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.319"
-        app:layout_constraintStart_toEndOf="@+id/imageProfile" />
+        app:layout_constraintStart_toEndOf="@+id/imageProfile"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

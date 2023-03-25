@@ -1,22 +1,33 @@
 package com.example.ft_hangout.controller;
 
+import static android.Manifest.permission.CALL_PHONE;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_PHONE_STATE;
+import static android.Manifest.permission.RECEIVE_SMS;
+import static android.Manifest.permission.SEND_SMS;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,15 +38,23 @@ import android.widget.Toast;
 import com.example.ft_hangout.R;
 import com.example.ft_hangout.SmsBroadcastReceiver;
 import com.example.ft_hangout.model.MydataBaseHelper;
+import com.example.ft_hangout.utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class Updateactivity extends AppCompatActivity {
     EditText name, lastName, email, number, birthday;
-    private static final int GALLERY_REQ_CODE = 1000;
     ImageView imageProfile;
     Button choose_image;
+    int PERMISSION_REQUEST_CODE = 200;
     public static String _id, _name, _lastName, _email, _number, _birthday;
+    Uri SelectImage;
+    Uri SelectImage_enr;
+
+    public  static Bitmap _image;
     ImageButton call_button, sms_button;
     private SmsBroadcastReceiver smsBroadcastReceiver;
     Button update_button, delete_button;
@@ -43,7 +62,7 @@ public class Updateactivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_updateactivity);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(MainActivity.COLOR_ID));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(MainActivity.COLOR_ID)));
         name = findViewById(R.id.update_name);
         lastName = findViewById(R.id.update_lastName);
         email = findViewById(R.id.update_email);
@@ -70,6 +89,8 @@ public class Updateactivity extends AppCompatActivity {
         call_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if ( checkPermission()){
+
                 String phone_number = number.getText().toString();
 
                 // Getting instance of Intent with action as ACTION_CALL
@@ -81,6 +102,7 @@ public class Updateactivity extends AppCompatActivity {
                 // start Intent
                 startActivity(phone_intent);
             }
+                }
         });
         update_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +113,25 @@ public class Updateactivity extends AppCompatActivity {
         _email = email.getText().toString().trim();
         _number = number.getText().toString().trim();
         _birthday = birthday.getText().toString().trim();
-        myDb.updateData(_id, _name, _lastName, _email, _number, _birthday);
+        SelectImage_enr = getImageUri(imageProfile);
+
+        try{
+            byte[] input_data;
+            if (SelectImage_enr == null || getContentResolver().openInputStream(SelectImage_enr) == null) {
+                Bitmap defaultImage = BitmapFactory.decodeResource(getResources(), R.drawable.baseline_question_mark_24);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                defaultImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                input_data = stream.toByteArray();
+            } else {
+                InputStream inputStream = getContentResolver().openInputStream(SelectImage_enr);
+                input_data = utils.getbytes(inputStream);
+            }
+
+            myDb.updateData(_id, _name, _lastName, _email, _number, _birthday,input_data);
+        }
+        catch (Exception e){
+            myDb.updateData(_id, _name, _lastName, _email, _number, _birthday,null );
+        }
             }
         });
         delete_button.setOnClickListener(new View.OnClickListener() {
@@ -103,24 +143,46 @@ public class Updateactivity extends AppCompatActivity {
         choose_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (checkPermission()){
                 imageChooser();
+                }
 
             }
         });
     }
+    private Uri getImageUri(ImageView imageView) {
+        Drawable drawable = imageView.getDrawable();
+        Bitmap bitmap = null;
 
+        if (drawable instanceof BitmapDrawable) {
+            bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        } else {
+            return null;
+        }
 
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Image Description", null);
+        return Uri.parse(path);
+    }
     public void getAndSetIntentData(){
         if (getIntent().hasExtra("id") && getIntent().hasExtra("name")&&
                 getIntent().hasExtra("lastName") && getIntent().hasExtra("email")
                 && getIntent().hasExtra("Number") && getIntent().hasExtra("birthday")){
-
             _id = getIntent().getStringExtra("id");
             _name = getIntent().getStringExtra("name");
             _lastName = getIntent().getStringExtra("lastName");
             _email = getIntent().getStringExtra("email");
             _number = getIntent().getStringExtra("Number");
             _birthday = getIntent().getStringExtra("birthday");
+            String imagePath = getIntent().getStringExtra("image");
+            File file = new File(imagePath);
+            if (file.exists()) {
+                _image = BitmapFactory.decodeFile(imagePath);
+                imageProfile.setImageBitmap(_image);
+            } else {
+                // Fichier introuvable, mettre une image par défaut ou afficher un message d'erreur.
+            Drawable defaultDrawable = getResources().getDrawable(R.drawable.baseline_question_mark_24);
+            imageProfile.setImageDrawable(defaultDrawable);
+            }
             name.setText(_name);
             lastName.setText(_lastName);
             email.setText(_email);
@@ -168,7 +230,6 @@ public class Updateactivity extends AppCompatActivity {
                 if (result.getResultCode()
                         == Activity.RESULT_OK) {
                     Intent data = result.getData();
-                    // do your operation from here....
                     if (data != null
                             && data.getData() != null) {
                         Uri selectedImageUri = data.getData();
@@ -178,8 +239,10 @@ public class Updateactivity extends AppCompatActivity {
                                     = MediaStore.Images.Media.getBitmap(
                                     this.getContentResolver(),
                                     selectedImageUri);
+                            SelectImage = selectedImageUri;
                         imageProfile.setImageBitmap(
                                 selectedImageBitmap);
+
                         }
                         catch (IOException e) {
                             e.printStackTrace();
@@ -202,6 +265,19 @@ public class Updateactivity extends AppCompatActivity {
         }
         MainActivity.isInBackground = false;
         // Cacher le Toast lorsque l'application reprend le focus
+    }
+
+    public boolean checkPermission(){
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), CALL_PHONE);
+        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), SEND_SMS);
+        int result2 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_PHONE_STATE);
+        int result3 = ContextCompat.checkSelfPermission(getApplicationContext(), RECEIVE_SMS);
+        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED &&  result2 == PackageManager.PERMISSION_GRANTED
+                && result3 == PackageManager.PERMISSION_GRANTED;
+    }
+    public void requestPermission() {
+
+        ActivityCompat.requestPermissions(this, new String[]{CALL_PHONE, SEND_SMS, RECEIVE_SMS, READ_PHONE_STATE}, PERMISSION_REQUEST_CODE);
     }
     @Override
     protected void onPause() {

@@ -19,14 +19,14 @@
 
     <EditText
         android:id="@+id/getMessage"
-        android:layout_width="332dp"
+        android:layout_width="match_parent"
         android:layout_height="54dp"
+        android:autofillHints=""
         android:background="@drawable/messagebackground"
         android:ems="10"
         android:hint="@string/sms"
-        android:autofillHints=""
-        android:padding="10sp"
         android:inputType="textPersonName"
+        android:padding="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -36,15 +36,17 @@
 
     <ImageButton
         android:id="@+id/Msendsms"
-        android:layout_width="64dp"
-        android:layout_height="51dp"
-        android:text="@string/sms"
+        android:layout_width="65dp"
+        android:layout_height="55dp"
+        android:background="@drawable/round_send_message"
         android:contentDescription="@string/sms"
+        android:text="@string/sms"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
 
-        app:layout_constraintHorizontal_bias="0.232"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/getMessage"
+        app:layout_constraintStart_toStartOf="@+id/getMessage"
         app:layout_constraintTop_toBottomOf="@+id/recycleViewChat"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/baseline_send_24" />

@@ -8,17 +8,19 @@
     android:orientation="vertical"
     android:padding="30sp">
 
+
     <EditText
         android:id="@+id/Create_name"
         android:layout_width="220dp"
         android:layout_height="51dp"
+        android:layout_marginTop="16dp"
         android:autofillHints="name"
         android:ems="10"
         android:hint="@string/name"
         android:inputType="textPersonName"
         android:padding="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.258"
+        app:layout_constraintEnd_toStartOf="@+id/Create_lastName"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,64 +29,67 @@
         android:layout_width="220dp"
         android:layout_height="51dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="80dp"
         android:autofillHints="lastName"
         android:ems="10"
         android:hint="@string/lastName"
         android:inputType="textPersonName"
         android:padding="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/Create_Number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.26"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Create_name" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/Create_email"
         android:layout_width="220dp"
         android:layout_height="51dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="132dp"
+        android:layout_marginTop="32dp"
         android:autofillHints="email"
         android:ems="10"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:padding="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.26"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Create_Number" />
+        app:layout_constraintTop_toBottomOf="@+id/Create_name" />
 
     <EditText
         android:id="@+id/Create_Number"
         android:layout_width="220dp"
         android:layout_height="51dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="24dp"
         android:autofillHints="number"
         android:ems="10"
         android:hint="@string/number"
         android:inputType="phone"
         android:padding="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/create_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.26"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Create_lastName" />
+        app:layout_constraintHorizontal_bias="0.452"
+        app:layout_constraintStart_toEndOf="@+id/Create_email" />
 
     <EditText
         android:id="@+id/Create_Birthday"
         android:layout_width="220dp"
         android:layout_height="51dp"
+        android:layout_marginTop="16dp"
         android:autofillHints="birthday"
         android:ems="10"
         android:hint="@string/birthday"
         android:inputType="date"
         android:padding="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.262"
+        app:layout_constraintHorizontal_bias="0.265"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Create_email" />
+        app:layout_constraintTop_toBottomOf="@+id/Create_email"
+        app:layout_constraintVertical_bias="0.044" />
 
     <Button
         android:id="@+id/create_button"
         android:layout_width="300dp"
         android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
         android:background="@color/orange"
         android:text="@string/description_add"
         android:textAllCaps="false"
@@ -92,12 +97,8 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Create_Birthday"
-        app:layout_constraintVertical_bias="0.069" />
-
-
+        app:layout_constraintHorizontal_bias="0.933"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

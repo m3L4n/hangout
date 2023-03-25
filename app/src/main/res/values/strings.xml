@@ -3,6 +3,13 @@
     <string name="color_blue"> blue</string>
     <string name="color_green"> green</string>
     <string name="color_red"> red</string>
+    <string name="color_clementine"> clementine</string>
+    <string name="color_brownOrange"> brown Orange</string>
+    <string name="color_brown"> brown</string>
+    <string name="color_orange"> orange</string>
+
+
+
     <string name="description_add"> add</string>
     <string name="description_update"> update</string>
     <string name="description_delete"> delete </string>
@@ -13,8 +20,6 @@
     <string name="choose_image"> choose image profile </string>
     <string name="image"> image of Profil </string>
     <string name="id"> id </string>
-
-
 
     <string name="delete_title"> Delete </string>
     <string name="delete_message"> are you sure you want to delete </string>

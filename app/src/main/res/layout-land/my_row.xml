@@ -9,12 +9,12 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         app:cardElevation="9dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-android:paddingBottom="10sp"
+            android:paddingBottom="10sp"
         android:background="@color/whiteOrange"
             android:layout_height="match_parent">
 
@@ -47,23 +47,23 @@ android:paddingBottom="10sp"
                 android:id="@+id/contact_lastName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="20dp"
                 android:text="@string/lastName"
                 android:textStyle="italic"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/contact_name"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.173" />
+                app:layout_constraintVertical_bias="0.164" />
 
             <TextView
                 android:id="@+id/contact_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/email"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toBottomOf="@+id/contact_name" />
@@ -72,15 +72,16 @@ android:paddingBottom="10sp"
                 android:id="@+id/contact_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="44dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="28dp"
                 android:text="@string/number"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/contact_email"
                 app:layout_constraintTop_toBottomOf="@+id/contact_lastName"
-                app:layout_constraintVertical_bias="0.026" />
+                app:layout_constraintVertical_bias="0.909" />
 
             <TextView
                 android:id="@+id/contact_birthday"
@@ -89,8 +90,8 @@ android:paddingBottom="10sp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/birthday"
-                android:textSize="12sp"
                 android:textStyle="italic"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toBottomOf="@+id/contact_email"

@@ -33,13 +33,14 @@
         android:id="@+id/imageNoData"
         android:layout_width="172dp"
         android:layout_height="128dp"
-        android:layout_marginTop="228dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/noData"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/recycleView"
+        android:layout_marginTop="76dp"
         android:alpha="0.5"
         android:visibility="gone"
+        android:contentDescription="@string/noData"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recycleView"
         app:srcCompat="@drawable/baseline_no_cell_24" />
 
     <TextView
@@ -47,12 +48,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:alpha="0.8"
         android:text="@string/noData"
         android:textSize="20sp"
-        android:alpha="0.8"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageNoData" />
 

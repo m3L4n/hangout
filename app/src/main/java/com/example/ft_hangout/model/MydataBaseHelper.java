@@ -5,10 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+
+import java.io.ByteArrayOutputStream;
 
 
 public class MydataBaseHelper extends SQLiteOpenHelper {
@@ -94,13 +97,6 @@ public class MydataBaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_MSG_TIME, time);
         cv.put(COLUMN_MSG_MSG, content);
         long result = db.insert(TABLE_NAME_MSG, null, cv);
-        if ( result == -1)
-        {
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();
-        }
     }
     public void add_receive_msg(String Number, String time, String content){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -154,7 +150,7 @@ public class MydataBaseHelper extends SQLiteOpenHelper {
         return  cursor;
     }
 
-    public void updateData(String row_id, String name, String lastName, String email, String number, String birthday){
+    public void updateData(String row_id, String name, String lastName, String email, String number, String birthday,byte [] imagePath){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_NAME, name);
@@ -162,6 +158,7 @@ public class MydataBaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_EMAIL, email);
         cv.put(COLUMN_NUMBER, number);
         cv.put(COLUMN_BIRTHDAY, birthday);
+        cv.put(COLUMN_PHOTO, imagePath);
         long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{row_id});
         if ( result == -1)
         {

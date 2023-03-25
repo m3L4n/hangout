@@ -1,10 +1,14 @@
 package com.example.ft_hangout.controller;
 
 import static android.Manifest.permission.CALL_PHONE;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission.READ_SMS;
 import static android.Manifest.permission.RECEIVE_SMS;
 import static android.Manifest.permission.SEND_SMS;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -12,12 +16,11 @@ import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.telephony.SmsManager;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -33,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class MessageActivity extends AppCompatActivity {
     private SmsBroadcastReceiver smsBroadcastReceiver;
@@ -41,20 +45,18 @@ public class MessageActivity extends AppCompatActivity {
     ImageButton msendMsg;
     MydataBaseHelper mydb;
     CustomSmsAdapter customSmsAdapter;
-    private  String enteredMsg;
-    String currentTime;
-    private ScrollView scrollView;
     Intent intent;
     ArrayList<String> msg_id, msg_num, msg_isSender, msg_content, msg_time;
     Calendar calendar;
     SimpleDateFormat simpleDateFormat;
     RecyclerView recyclerView;
 
+    @SuppressLint("SimpleDateFormat")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.message_activity);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(MainActivity.COLOR_ID));
+        Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(getResources().getColor(MainActivity.COLOR_ID)));
         recyclerView = findViewById(R.id.recycleViewChat);
         mgetMsg = findViewById(R.id.getMessage);
         msendMsg = findViewById(R.id.Msendsms);
@@ -65,6 +67,13 @@ public class MessageActivity extends AppCompatActivity {
         msg_time = new ArrayList<>();
         msg_content = new ArrayList<>();
         storeDataInArray(Updateactivity._number);
+        ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setTitle(Updateactivity._name);
+        if (!checkPermission())
+        {
+            requestPermission();
+        }
         smsBroadcastReceiver = new SmsBroadcastReceiver();
         customSmsAdapter = new CustomSmsAdapter(MessageActivity.this, this, msg_id, msg_content, msg_isSender, msg_time);
         recyclerView.setLayoutManager(new LinearLayoutManager(MessageActivity.this));
@@ -76,35 +85,33 @@ public class MessageActivity extends AppCompatActivity {
     intent = getIntent();
         calendar = Calendar.getInstance();
         simpleDateFormat = new SimpleDateFormat("hh:mm a");
-        msendMsg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if ( !checkPermission())
-                {
-                    requestPermission();
-                }
-                else {
-                    sendSms();
-                }
+        msendMsg.setOnClickListener(view -> {
+            if ( !checkPermission())
+            {
+                requestPermission();
+            }
+            else {
+                sendSms();
             }
         });
     }
 public void sendSms(){
-        String number = Updateactivity._number;
-        String msg = mgetMsg.getText().toString().trim();
-        Date date = new Date();
-        String result_time = simpleDateFormat.format(date);
-        if (!msg.equals("") && !number.equals("")){
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(number,null,msg, null, null );
-        }
+        if (checkPermission()) {
+            String number = Updateactivity._number;
+            String msg = mgetMsg.getText().toString().trim();
+            Date date = new Date();
+            String result_time = simpleDateFormat.format(date);
+            if (!msg.equals("") && !number.equals("")) {
+                SmsManager smsManager = SmsManager.getDefault();
+                smsManager.sendTextMessage(number, null, msg, null, null);
+            }
 
-        mydb.add_msg(number,result_time,msg);
-        mgetMsg.setText("");
-    Intent intent = new Intent(MessageActivity.this, MessageActivity.class);
-    startActivity(intent);
-    finish();
-    Toast.makeText(getApplicationContext(), "SMS SEND", Toast.LENGTH_SHORT).show();
+            mydb.add_msg(number, result_time, msg);
+            mgetMsg.setText("");
+            Intent intent = new Intent(MessageActivity.this, MessageActivity.class);
+            startActivity(intent);
+            finish();
+        }
 }
     void storeDataInArray(String numero){
         Cursor cursor = mydb.readAllMsg(numero);
@@ -121,14 +128,14 @@ public void sendSms(){
     public boolean checkPermission(){
         int result = ContextCompat.checkSelfPermission(getApplicationContext(), CALL_PHONE);
         int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), SEND_SMS);
+        int result2 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_PHONE_STATE);
         int result3 = ContextCompat.checkSelfPermission(getApplicationContext(), RECEIVE_SMS);
-        int result2 = ContextCompat.checkSelfPermission(getApplicationContext(), RECEIVE_SMS);
-        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED
-                && result2 == PackageManager.PERMISSION_GRANTED && result3 == PackageManager.PERMISSION_GRANTED;
+        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED &&  result2 == PackageManager.PERMISSION_GRANTED
+                && result3 == PackageManager.PERMISSION_GRANTED;
     }
     public void requestPermission() {
 
-        ActivityCompat.requestPermissions(this, new String[]{CALL_PHONE, SEND_SMS, RECEIVE_SMS, READ_SMS}, PERMISSION_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this, new String[]{CALL_PHONE, SEND_SMS, RECEIVE_SMS, READ_PHONE_STATE}, PERMISSION_REQUEST_CODE);
     }
     @Override
     protected void onResume() {

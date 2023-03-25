@@ -1,60 +1,50 @@
 package com.example.ft_hangout.controller;
+import android.annotation.SuppressLint;
 import android.content.ComponentCallbacks2;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.provider.Telephony;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.EditText;
-import android.widget.Button;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.WindowCompat;
+
 import android.os.Bundle;
-import android.graphics.Color;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.graphics.drawable.ColorDrawable;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ft_hangout.BuildConfig;
 import com.example.ft_hangout.CustomerAdapter;
 import com.example.ft_hangout.R;
 import com.example.ft_hangout.SmsBroadcastReceiver;
-import com.example.ft_hangout.model.Contact;
 import com.example.ft_hangout.model.MydataBaseHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import static android.Manifest.permission.CALL_PHONE;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission.RECEIVE_SMS;
 import static android.Manifest.permission.SEND_SMS;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements ComponentCallbacks2 {
 
+    private static final String COLUMN_PHOTO = "_photo";
     RecyclerView recyclerView;
      ImageView empty_ImageView;
      private  SmsBroadcastReceiver smsBroadcastReceiver;
@@ -63,13 +53,13 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
      MydataBaseHelper mydb;
      ArrayList<String> contact_id, contact_name, contact_lastName, contact_email, contact_number,
         contact_birthday;
+     ArrayList<Bitmap> contact_photo;
     CustomerAdapter customerAdapter;
-    public static int COLOR_ID = 0xFFCCCCCC;
+    public static int COLOR_ID = R.color.clementine;
     public static boolean isInBackground = true;
     public static long mStartTime = 0;
     public  static long mTimeInBackground = 0;
-    Contact mContact;
-        int PERMISSION_REQUEST_CODE = 200;
+    int PERMISSION_REQUEST_CODE = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,13 +74,10 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
         {
             requestPermission();
         }
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(MainActivity.COLOR_ID));
-        add_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
-                startActivity(intent);
-            }
+        Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(getResources().getColor(MainActivity.COLOR_ID)));
+        add_button.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+            startActivity(intent);
         });
         mydb = new MydataBaseHelper(MainActivity.this);
         contact_id = new ArrayList<>();
@@ -99,9 +86,10 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
         contact_email = new ArrayList<>();
         contact_number = new ArrayList<>();
         contact_birthday = new ArrayList<>();
+        contact_photo = new ArrayList<>();
         storeDataInArray();
         smsBroadcastReceiver = new SmsBroadcastReceiver();
-        customerAdapter = new CustomerAdapter(MainActivity.this,this, contact_id,contact_name,contact_lastName,contact_email,contact_number,contact_birthday);
+        customerAdapter = new CustomerAdapter(MainActivity.this,this, contact_id,contact_name,contact_lastName,contact_email,contact_number,contact_birthday, contact_photo);
         recyclerView.setAdapter(customerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
@@ -127,8 +115,15 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
                 contact_lastName.add(cursor.getString(2));
                 contact_email.add(cursor.getString(3));
                 contact_number.add(cursor.getString(4));
-                contact_birthday.add(cursor.getString(5));
-
+                contact_birthday.add(cursor.getString(6));
+                @SuppressLint("Range") byte[] imageBytes = cursor.getBlob(cursor.getColumnIndex(COLUMN_PHOTO));
+                if (imageBytes != null && imageBytes.length > 0) {
+                    Bitmap image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                    contact_photo.add(image);
+                } else {
+                    Bitmap defaultImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.baseline_question_mark_24);
+                    contact_photo.add(defaultImage);
+                }
             }
             empty_ImageView.setVisibility(View.GONE);
             no_data.setVisibility(View.GONE);
@@ -165,24 +160,30 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
         getMenuInflater().inflate(R.menu.color_menu, menu);
         return true;
     }
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.color_red:{
+            case R.id.color_clementine:{
 
-                COLOR_ID = Color.RED;
-                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.red)));
+                COLOR_ID = R.color.clementine;
+                Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.clementine)));
                 return true;
             }
-            case R.id.color_blue:{
+            case R.id.color_brownOrange:{
 
-                COLOR_ID = Color.BLUE;
-                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+                COLOR_ID = R.color.brownOrange;
+                Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.brownOrange)));
                 return true;
             }
-            case R.id.color_green:{
-                COLOR_ID = Color.GREEN;
-                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.GREEN));
+            case R.id.color_brown:{
+                COLOR_ID = R.color.brown;
+                Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.brown)));
+                return true;
+            }
+            case R.id.color_orange:{
+                COLOR_ID = R.color.orange;
+                Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.orange)));
                 return true;
             }
             case R.id.delete_all:{
@@ -197,22 +198,13 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("@string/deleteAll_title");
         builder.setMessage("@string/deleteAll_msg");
-        builder.setPositiveButton("@string/positive", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                mydb = new MydataBaseHelper(MainActivity.this);
-                mydb.deleteAllData();
-                recreate();
-              //  Intent intent = new Intent(MainActivity.this, MainActivity.class);
-           //     startActivity(intent);
-           //     finish();
-            }
+        builder.setPositiveButton("@string/positive", (dialogInterface, i) -> {
+            mydb = new MydataBaseHelper(MainActivity.this);
+            mydb.deleteAllData();
+            recreate();
         });
-        builder.setNegativeButton("@string/negative", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+        builder.setNegativeButton("@string/negative", (dialogInterface, i) -> {
 
-            }
         });
         builder.create().show();
     }
@@ -221,8 +213,10 @@ public class MainActivity extends AppCompatActivity implements ComponentCallback
         int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), SEND_SMS);
         int result2 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_PHONE_STATE);
         int result3 = ContextCompat.checkSelfPermission(getApplicationContext(), RECEIVE_SMS);
+        int result4 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
+        int result5 = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
         return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED &&  result2 == PackageManager.PERMISSION_GRANTED
-                && result3 == PackageManager.PERMISSION_GRANTED;
+                && result3 == PackageManager.PERMISSION_GRANTED && result4 == PackageManager.PERMISSION_GRANTED && result5 == PackageManager.PERMISSION_GRANTED;
     }
     public void requestPermission() {
 
